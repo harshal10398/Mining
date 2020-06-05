@@ -1,9 +1,9 @@
-#include"openSSL/crypto.h"
+#include "openssl/crypto.h"
 #include<string.h>
 #include<stdio.h>
-#include"sha.h"
+#include "openssl/sha.h"
 #include<stdlib.h>
-#include<conio.h>
+
 #define SHA256_DIGEST_LENGTH 32
 // src size dest 
 struct block{
@@ -11,6 +11,8 @@ struct block{
 	int blockdata;
 	struct block *link;
 }*head;
+const unsigned char* blank = (const unsigned char*) "";
+
 void addblock(int);
 void verifychain();
 void alternthblock(int,int);
@@ -24,8 +26,9 @@ void addblock(int data)
 {
 	if(head==NULL)
 	{
-		head=(block *)malloc(sizeof(struct block));
-	    unsigned char* SHA256((const unsigned char *)"",sizeof(""),(unsigned char*)head->prevhash);
+		head=(block *)malloc(sizeof(struct block));		
+		SHA256(blank,sizeof(*blank),head->prevhash);
+		
 		head->blockdata=data;
 		return;
 	}
